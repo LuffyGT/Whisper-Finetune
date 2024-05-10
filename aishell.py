@@ -15,9 +15,9 @@ MD5_DATA = '2f494334227864a8a8fec932999db9d8'
 parser = argparse.ArgumentParser(description=__doc__)
 add_arg = functools.partial(add_arguments, argparser=parser)
 add_arg("filepath", default=None, type=str, help="压缩包data_aishell.tgz文件路径，不指定会自动下载")
-add_arg("target_dir", default="dataset/audio/", type=str, help="存放音频文件的目录")
+add_arg("target_dir", default="dataset/", type=str, help="存放音频文件的目录")
 add_arg("annotation_text", default="dataset/", type=str, help="存放音频标注文件的目录")
-add_arg('add_pun', default=False, type=bool, help="是否添加标点符")
+add_arg('add_pun', default=True, type=bool, help="是否添加标点符")
 args = parser.parse_args()
 
 
@@ -31,8 +31,8 @@ def create_annotation_text(data_dir, annotation_path):
         logger = get_logger(log_level=logging.CRITICAL)
         logger.setLevel(logging.CRITICAL)
         inference_pipline = pipeline(task=Tasks.punctuation,
-                                     model='damo/punc_ct-transformer_cn-en-common-vocab471067-large',
-                                     model_revision="v1.0.0")
+                             model='damo/punc_ct-transformer_zh-cn-common-vocab272727-pytorch',
+                             model_revision="v2.0.4")
     if not os.path.exists(annotation_path):
         os.makedirs(annotation_path)
     f_train = open(os.path.join(annotation_path, 'train.json'), 'w', encoding='utf-8')
@@ -44,11 +44,11 @@ def create_annotation_text(data_dir, annotation_path):
     for line in tqdm(lines):
         line = line.strip()
         if line == '': continue
-        audio_id, text = line.split(' ', 1)
+        audio_id, text = line.strip().split(' ', 1)
         # remove space
         text = ''.join(text.split())
         if args.add_pun:
-            text = inference_pipline(text_in=text)['text']
+            text = inference_pipline(input=text, disable_log=True, disable_pbar=True)[0]['text']
         transcript_dict[audio_id] = text
     # 训练集
     data_types = ['train', 'dev']
