@@ -440,14 +440,6 @@ local_files_only: True
 </div>
 
 
-<a name='打赏作者'></a>
-## 打赏作者
-
-<br/>
-<div align="center">
-<p>打赏一块钱支持一下作者</p>
-<img src="https://yeyupiaoling.cn/reward.png" alt="打赏作者" width="400">
-</div>
 
 ## 参考资料
 
