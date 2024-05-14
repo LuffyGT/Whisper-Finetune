@@ -21,3 +21,4 @@ tensorboardX>=2.2
 funasr==1.0.26
 modelscope==1.14.0
 pandas==1.5.3
+zhon

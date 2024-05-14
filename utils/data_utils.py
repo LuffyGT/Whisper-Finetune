@@ -4,18 +4,27 @@ from typing import Any, List, Dict, Union
 
 import torch
 from zhconv import convert
+from zhon import hanzi
+import string
+
+
+def remove_puncs(text):
+    """输入字符串, 去掉标点符号和空格"""
+    punctuation = hanzi.punctuation + string.punctuation
+    text = re.sub(r'[{}]+'.format(punctuation), '', text)
+    return text
 
 
 # 删除标点符号
 def remove_punctuation(text: str or List[str]):
     punctuation = '!,.;:?、！，。；：？'
     if isinstance(text, str):
-        text = re.sub(r'[{}]+'.format(punctuation), '', text).strip()
+        text = remove_puncs(text.strip())
         return text
     elif isinstance(text, list):
         result_text = []
         for t in text:
-            t = re.sub(r'[{}]+'.format(punctuation), '', t).strip()
+            t = remove_puncs(t.strip())
             result_text.append(t)
         return result_text
     else:
