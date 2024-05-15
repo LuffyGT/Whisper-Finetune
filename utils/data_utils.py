@@ -10,7 +10,7 @@ import string
 
 def remove_puncs(text):
     """输入字符串, 去掉标点符号和空格"""
-    punctuation = hanzi.punctuation + string.punctuation + ' '
+    punctuation = hanzi.punctuation + string.punctuation
     text = re.sub(r'[{}]+'.format(punctuation), '', text)
     return text
 
