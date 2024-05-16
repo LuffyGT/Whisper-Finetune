@@ -17,7 +17,6 @@ def remove_puncs(text):
 
 # 删除标点符号
 def remove_punctuation(text: str or List[str]):
-    punctuation = '!,.;:?、！，。；：？'
     if isinstance(text, str):
         text = remove_puncs(text.strip())
         return text
